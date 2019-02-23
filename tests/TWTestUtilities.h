@@ -3,10 +3,14 @@
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
+#pragma once
 
 #include <TrustWalletCore/TWData.h>
 #include <TrustWalletCore/TWString.h>
+#include <TrustWalletCore/TWHDWallet.h>
 #include <gtest/gtest.h>
+
+#include "../src/HDWallet.h"
 
 #define WRAP(type, x) std::shared_ptr<type>(x, type##Delete)
 #define WRAPD(x) std::shared_ptr<TWData>(x, TWDataDelete)
@@ -22,3 +26,11 @@ inline void assertHexEqual(std::shared_ptr<TWData>& data, const char* expected) 
     auto hex = WRAPS(TWStringCreateWithHexData(data.get()));
     assertStringsEqual(hex, expected);
 }
+
+inline void assertSeedEq(std::shared_ptr<TWHDWallet>& wallet, const char* expected) {
+    auto seed = WRAPD(TWHDWalletSeed(wallet.get()));
+    assertHexEqual(seed, expected);
+}
+
+const auto fixture_mnemonic = STRING("ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal");
+const auto fixture_passphrase = STRING("TREZOR");

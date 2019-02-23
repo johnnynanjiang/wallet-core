@@ -14,19 +14,13 @@
 
 #include <thread>
 
-auto words = STRING("ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal");
-auto passphrase = STRING("TREZOR");
-
+auto words = fixture_mnemonic;
+auto passphrase = fixture_passphrase;
 auto valid = STRING("credit expect life fade cover suit response wash pear what skull force");
 auto invalidWord = STRING("ripple scissors hisc mammal hire column oak again sun offer wealth tomorrow");
 auto invalidWord1 = STRING("high culture ostrich wrist exist ignore interest hybridous exclude width more");
 auto invalidChecksum = STRING("ripple scissors kick mammal hire column oak again sun offer wealth tomorrow");
 auto invalidWordCount = STRING("credit expect life fade cover suit response wash what skull force");
-
-inline void assertSeedEq(std::shared_ptr<TWHDWallet>& wallet, const char* expected) {
-    auto seed = WRAPD(TWHDWalletSeed(wallet.get()));
-    assertHexEqual(seed, expected);
-}
 
 TEST(HDWallet, Seed) {
     auto wallet = WRAP(TWHDWallet, TWHDWalletCreateWithMnemonic(words.get(), passphrase.get()));
