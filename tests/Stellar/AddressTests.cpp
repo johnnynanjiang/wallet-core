@@ -6,16 +6,24 @@
 
 using namespace TW;
 
-TEST(Stellar, GetSeedFromMnemonic) {
-    const auto wallet = HDWallet("swift slam quote sail high remain mandate sample now stamp title among fiscal captain joy puppy ghost arrow attract ozone situate install gain mean", "");
-    const auto privateKey = wallet.getKey(TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 0);
-    const auto publicKeyData = privateKey.getPublicKey(true);
+TEST(Stellar, DeriveAddressFromMnemonic) {
+    auto wallet = WRAP(TWHDWallet, TWHDWalletCreateWithMnemonic(fixture_mnemonic.get(), fixture_passphrase.get()));
 
-    EXPECT_EQ("189a8c98785ab71e8d1c9f9948b918365960fcf7f106ca03039dd2e9bef254bdb2c9ecca1aa3a7bc21ba93bf2dfc9e4bd704b536c886082dcf44caf35f24cd56", hex(wallet.seed));
-    EXPECT_EQ("907662626004f22c3708148eee84770c94acdc899635cd388725930f9d7a5751", hex(privateKey.bytes));
-    EXPECT_EQ("031a735c439e850ea49dec8b9c76912492d6be03553dfcddde7c046574b3b16c08", hex(publicKeyData.begin(), publicKeyData.end()));
+    assertSeedEq(wallet, "7ae6f661157bda6492f6162701e570097fc726b6235011ea5ad09bf04986731ed4d92bc43cbdee047b60ea0dd1b1fa4274377c9bf5bd14ab1982c272d8076f29");
+
+    auto key0 = WRAP(TWPrivateKey, TWHDWalletGetKey(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 0));
+    auto key1 = WRAP(TWPrivateKey, TWHDWalletGetKey(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 1));
+
+    auto publicKey0 = TWPrivateKeyGetPublicKey(key0.get(), false);
+    auto publicKey0Data = WRAPD(TWPublicKeyData(publicKey0));
+
+    auto publicKey1 = TWPrivateKeyGetPublicKey(key1.get(), false);
+    auto publicKey1Data = WRAPD(TWPublicKeyData(publicKey1));
+
+    assertHexEqual(publicKey0Data, "04629289c4d9777f051bc3fdcf01c46237390b889f2cc4ee5dd01030ef3225c03632b60a04123a71069af875bb43b9abe4b277f896f1c8faf784207e07ded890fb");
+    assertHexEqual(publicKey1Data, "04c978b7bf44747ca41189a321b0c3967e1f34052c32876ed436bef421a22d339e1115e0690d27005533ff5174eb2d60a13569249f7d148b3a0bdcb514a908b68f");
 }
 
 TEST(Stellar, DeriveAddressFromSeed) {
-    auto seed = STRING("189a8c98785ab71e8d1c9f9948b918365960fcf7f106ca03039dd2e9bef254bdb2c9ecca1aa3a7bc21ba93bf2dfc9e4bd704b536c886082dcf44caf35f24cd56");
+    auto seed = STRING("7ae6f661157bda6492f6162701e570097fc726b6235011ea5ad09bf04986731ed4d92bc43cbdee047b60ea0dd1b1fa4274377c9bf5bd14ab1982c272d8076f29");
 }
