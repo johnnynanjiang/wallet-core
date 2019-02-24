@@ -22,7 +22,8 @@ using namespace TW;
 namespace {
     HDNode getNode(const HDWallet& wallet, uint32_t purpose, uint32_t coin);
     HDNode getNode(const HDWallet& wallet, uint32_t purpose, uint32_t coin, uint32_t account, uint32_t change, uint32_t address);
-    HDNode getMasterNode(const HDWallet& wallet);
+    HDNode getMasterNode(const HDWallet& wallet, uint32_t coin);
+    const char* getCurveForCoin(uint32_t coin);
 }
 
 bool HDWallet::isValid(const std::string& mnemonic) {
@@ -141,14 +142,14 @@ std::optional<std::string> HDWallet::getAddressFromExtended(const std::string& e
 
 namespace {
     HDNode getNode(const HDWallet& wallet, uint32_t purpose, uint32_t coin) {
-        auto node = getMasterNode(wallet);
+        auto node = getMasterNode(wallet, coin);
         hdnode_private_ckd(&node, purpose | 0x80000000);
         hdnode_private_ckd(&node, coin | 0x80000000);
         return node;
     }
 
     HDNode getNode(const HDWallet& wallet, uint32_t purpose, uint32_t coin, uint32_t account, uint32_t change, uint32_t address) {
-        auto node = getMasterNode(wallet);
+        auto node = getMasterNode(wallet, coin);
         hdnode_private_ckd(&node, purpose | 0x80000000);
         hdnode_private_ckd(&node, coin | 0x80000000);
         hdnode_private_ckd(&node, account | 0x80000000);
@@ -157,9 +158,16 @@ namespace {
         return node;
     }
 
-    HDNode getMasterNode(const HDWallet& wallet) {
+    HDNode getMasterNode(const HDWallet& wallet, uint32_t coin) {
         auto node = HDNode();
-        hdnode_from_seed(wallet.seed.data(), HDWallet::seedSize, SECP256K1_NAME, &node);
+        hdnode_from_seed(wallet.seed.data(), HDWallet::seedSize, getCurveForCoin(coin), &node);
         return node;
+    }
+
+    const char* getCurveForCoin(uint32_t coin) {
+        switch(coin) {
+            case TWCoinTypeStellar: return ED25519_NAME;
+            default: return SECP256K1_NAME;
+        }
     }
 }
