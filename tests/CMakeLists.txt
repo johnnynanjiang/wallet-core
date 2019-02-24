@@ -25,6 +25,6 @@ include_directories(${Protobuf_INCLUDE_DIRS})
 file(GLOB_RECURSE test_sources *.cpp **/*.cpp)
 add_executable(tests ${test_sources})
 target_compile_features(tests PRIVATE cxx_std_14)
-target_link_libraries(tests gtest_main TrustWalletCore protobuf Boost::boost)
+target_link_libraries(tests gtest_main TrustWalletCore TrezorCrypto protobuf Boost::boost)
 
 add_test(NAME example_test COMMAND tests)
