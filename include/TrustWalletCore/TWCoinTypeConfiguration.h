@@ -31,4 +31,6 @@ TWString *_Nonnull TWCoinTypeConfigurationGetID(enum TWCoinType type);
 TW_EXPORT_STATIC_METHOD
 TWString *_Nonnull TWCoinTypeConfigurationGetName(enum TWCoinType type);
 
+const char *_Nonnull TWCoinTypeConfigurationGetCurve(enum TWCoinType type);
+
 TW_EXTERN_C_END

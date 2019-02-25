@@ -16,6 +16,7 @@
 #include <TrezorCrypto/curves.h>
 #include <TrustWalletCore/TWHRP.h>
 #include <TrustWalletCore/TWP2PKHPrefix.h>
+#include <TrustWalletCore/TWCoinTypeConfiguration.h>
 
 using namespace TW;
 
@@ -160,14 +161,7 @@ namespace {
 
     HDNode getMasterNode(const HDWallet& wallet, uint32_t coin) {
         auto node = HDNode();
-        hdnode_from_seed(wallet.seed.data(), HDWallet::seedSize, getCurveForCoin(coin), &node);
+        hdnode_from_seed(wallet.seed.data(), HDWallet::seedSize, TWCoinTypeConfigurationGetCurve(static_cast<TWCoinType>(coin)), &node);
         return node;
-    }
-
-    const char* getCurveForCoin(uint32_t coin) {
-        switch(coin) {
-            case TWCoinTypeStellar: return ED25519_NAME;
-            default: return SECP256K1_NAME;
-        }
     }
 }

@@ -5,6 +5,7 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include <TrustWalletCore/TWCoinTypeConfiguration.h>
+#include <TrezorCrypto/curves.h>
 #include <stdio.h>
 #include <string.h>
 #include <string>
@@ -36,6 +37,7 @@ TWString *_Nullable TWCoinTypeConfigurationGetSymbol(enum TWCoinType type) {
     case TWCoinTypeZcash: string = "ZEC"; break;
     case TWCoinTypeBinance: string = "BNB"; break;
     case TWCoinTypeEOS: string = "EOS"; break;
+    case TWCoinTypeStellar: string = "XLM"; break;
     default: string = ""; break;
     }
     return TWStringCreateWithUTF8Bytes(string.c_str());
@@ -66,6 +68,7 @@ int TWCoinTypeConfigurationGetDecimals(enum TWCoinType type) {
         return 6;
     case TWCoinTypeTest:
     case TWCoinTypeEOS: //TODO
+    case TWCoinTypeStellar: //TODO
     default:
         return 0;
     }
@@ -108,6 +111,9 @@ TWString *_Nullable TWCoinTypeConfigurationGetTransactionURL(enum TWCoinType typ
         url += "/tx/ZEC/" + txId;
         break;
     case TWCoinTypeBinance: break;
+    case TWCoinTypeStellar:
+        url += "/transactions/"  + txId;
+        break;
     default: break;
     }
     return TWStringCreateWithUTF8Bytes(url.c_str());
@@ -135,6 +141,7 @@ const char *explorerURLForCoinType(enum TWCoinType type) {
     case TWCoinTypeZcash: return "https://chain.so";
     case TWCoinTypeBinance: return "https://binance.com";
     case TWCoinTypeEOS: return "https://eospark.com";
+    case TWCoinTypeStellar: return "https://horizon.stellar.org";
     default: return "";
     }
 }
@@ -162,6 +169,7 @@ TWString *_Nonnull TWCoinTypeConfigurationGetID(enum TWCoinType type) {
     case TWCoinTypeZcash: string = "zcash"; break;
     case TWCoinTypeBinance: string = "binance"; break;
     case TWCoinTypeEOS: string = "eos"; break;
+    case TWCoinTypeStellar: string = "stellar"; break;
     default: string = ""; break;
     }
     return TWStringCreateWithUTF8Bytes(string.c_str());
@@ -190,7 +198,15 @@ TWString *_Nonnull TWCoinTypeConfigurationGetName(enum TWCoinType type) {
     case TWCoinTypeZcash: string = "Zcash"; break;
     case TWCoinTypeBinance: string = "Binance"; break;
     case TWCoinTypeEOS: string = "EOS"; break;
+    case TWCoinTypeStellar: string = "Stellar"; break;
     default: string = ""; break;
     }
     return TWStringCreateWithUTF8Bytes(string.c_str());
+}
+
+const char *_Nonnull TWCoinTypeConfigurationGetCurve(enum TWCoinType type) {
+    switch(type) {
+        case TWCoinTypeStellar: return ED25519_NAME;
+        default: return SECP256K1_NAME;
+    }
 }
