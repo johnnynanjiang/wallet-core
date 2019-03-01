@@ -166,13 +166,14 @@ namespace {
         return node;
     }
 
+    // As with Ed25519 non-hardened child indexes are not supported, this function treats all paths hardened
     HDNode getNodeEd25519(const HDWallet& wallet, uint32_t purpose, uint32_t coin, uint32_t account, uint32_t change, uint32_t address) {
         auto node = getMasterNode(wallet, coin);
         hdnode_private_ckd(&node, purpose | 0x80000000);
         hdnode_private_ckd(&node, coin | 0x80000000);
         hdnode_private_ckd(&node, account | 0x80000000);
-        hdnode_private_ckd(&node, change);
-        hdnode_private_ckd(&node, address);
+        hdnode_private_ckd(&node, change | 0x80000000);
+        hdnode_private_ckd(&node, address | 0x80000000);
         return node;
     }
 

@@ -23,9 +23,11 @@ TEST(Stellar, DeriveMasterKeyFromMnemonic) {
 TEST(Stellar, DeriveAddressFromSeed) {
     auto seed = STRING(bip39Seed);
 
-    auto privateKey0 = WRAP(TWPrivateKey, TWHDWalletGetKeyEd25519(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 0));
-    auto privateKey1 = WRAP(TWPrivateKey, TWHDWalletGetKeyEd25519(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 1, 0, 0));
+    auto privateKey_m_44_148_0_0_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyEd25519(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 0));
+    auto privateKey_m_44_148_1_0_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyEd25519(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 1, 0, 0));
+    auto privateKey_m_44_148_1_0_1 = WRAP(TWPrivateKey, TWHDWalletGetKeyEd25519(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 1, 0, 1));
 
-    EXPECT_EQ(hex(privateKey0.get()->impl.bytes), "4fd1cb3c9c15c171b7b90dc3fefc7b2fc54de09b869cc9d6708d26b114e8d9a5");
-    EXPECT_EQ(hex(privateKey1.get()->impl.bytes), "afcb27720af99a95b6cb3fd660c9a834ef08d1f4654a8584b4d70734af734e7f");
+    EXPECT_EQ(hex(privateKey_m_44_148_0_0_0.get()->impl.bytes), "090ceb3bfc18a5994df63adb99d9e1ab4efd6e0b99f3cadc307011c88dfe3dcf");
+    EXPECT_EQ(hex(privateKey_m_44_148_1_0_0.get()->impl.bytes), "bcd8e34fc099226b125b0d0efbc1bb06445bf136cdbad7b270f5cfe727bc0b47");
+    EXPECT_EQ(hex(privateKey_m_44_148_1_0_1.get()->impl.bytes), "b46738be2511e5003e689ba2418cfcec6ee541b5ee74ed7476339056d819663d");
 }
