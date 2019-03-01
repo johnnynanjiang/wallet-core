@@ -23,20 +23,9 @@ TEST(Stellar, DeriveMasterKeyFromMnemonic) {
 TEST(Stellar, DeriveAddressFromSeed) {
     auto seed = STRING(bip39Seed);
 
-    auto privateKey0 = WRAP(TWPrivateKey, TWHDWalletGetKey(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 0));
-    auto privateKey1 = WRAP(TWPrivateKey, TWHDWalletGetKey(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 1));
+    auto privateKey0 = WRAP(TWPrivateKey, TWHDWalletGetKeyEd25519(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 0));
+    auto privateKey1 = WRAP(TWPrivateKey, TWHDWalletGetKeyEd25519(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 1, 0, 0));
 
-    auto publicKey0 = TWPrivateKeyGetPublicKey(privateKey0.get(), true);
-    auto publicKey0Data = WRAPD(TWPublicKeyData(publicKey0));
-
-    auto publicKey1 = TWPrivateKeyGetPublicKey(privateKey1.get(), true);
-    auto publicKey1Data = WRAPD(TWPublicKeyData(publicKey1));
-
-    // TODO by JNJ: to fix the assertions, private key 0 and 1 shouldn't be equal
-    EXPECT_EQ(hex(privateKey0->impl.bytes), "4fd1cb3c9c15c171b7b90dc3fefc7b2fc54de09b869cc9d6708d26b114e8d9a5");
-    EXPECT_EQ(hex(privateKey1->impl.bytes), "4fd1cb3c9c15c171b7b90dc3fefc7b2fc54de09b869cc9d6708d26b114e8d9a5");
-    /*
-    assertHexEqual(publicKey0Data, "a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e1377");
-    assertHexEqual(publicKey1Data, "b10ec09cfc909287f09fbabd93862e17dd0697c5b897f8117af27e9004c2cae0");
-    */
+    EXPECT_EQ(hex(privateKey0.get()->impl.bytes), "4fd1cb3c9c15c171b7b90dc3fefc7b2fc54de09b869cc9d6708d26b114e8d9a5");
+    EXPECT_EQ(hex(privateKey1.get()->impl.bytes), "afcb27720af99a95b6cb3fd660c9a834ef08d1f4654a8584b4d70734af734e7f");
 }
