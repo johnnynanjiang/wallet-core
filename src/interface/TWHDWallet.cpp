@@ -43,10 +43,6 @@ struct TWPrivateKey *_Nonnull TWHDWalletGetKey(struct TWHDWallet *wallet, TWPurp
     return new TWPrivateKey{ wallet->impl.getKey(purpose, coin, account, change, address) };
 }
 
-struct TWPrivateKey *_Nonnull TWHDWalletGetKeyEd25519(struct TWHDWallet *wallet, TWPurpose purpose, TWCoinType coin, uint32_t account, uint32_t change, uint32_t address) {
-    return new TWPrivateKey{ wallet->impl.getKeyEd25519(purpose, coin, account, change, address) };
-}
-
 TWString *_Nonnull TWHDWalletGetExtendedPrivateKey(struct TWHDWallet *wallet, TWPurpose purpose, TWCoinType coin, TWHDVersion version) {
     return new std::string(wallet->impl.getExtendedPrivateKey(purpose, coin, version));
 }
