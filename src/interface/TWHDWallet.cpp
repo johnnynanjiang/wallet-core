@@ -39,12 +39,16 @@ TWString *_Nonnull TWHDWalletMnemonic(struct TWHDWallet *_Nonnull wallet){
     return TWStringCreateWithUTF8Bytes(wallet->impl.mnemonic.c_str());
 }
 
+struct TWPrivateKey *_Nonnull TWHDWalletGetKeyToAccountLevel(struct TWHDWallet *wallet, TWPurpose purpose, TWCoinType coin, uint32_t account) {
+    return new TWPrivateKey{ wallet->impl.getKey(purpose, coin, account) };
+}
+
 struct TWPrivateKey *_Nonnull TWHDWalletGetKey(struct TWHDWallet *wallet, TWPurpose purpose, TWCoinType coin, uint32_t account, uint32_t change, uint32_t address) {
     return new TWPrivateKey{ wallet->impl.getKey(purpose, coin, account, change, address) };
 }
 
-struct TWPrivateKey *_Nonnull TWHDWalletGetKeyEd25519(struct TWHDWallet *wallet, TWPurpose purpose, TWCoinType coin, uint32_t account, uint32_t change, uint32_t address) {
-    return new TWPrivateKey{ wallet->impl.getKeyEd25519(purpose, coin, account, change, address) };
+struct TWPrivateKey *_Nonnull TWHDWalletGetKeyAllHardened(struct TWHDWallet *wallet, TWPurpose purpose, TWCoinType coin, uint32_t account, uint32_t change, uint32_t address) {
+    return new TWPrivateKey{ wallet->impl.getKeyAllHardened(purpose, coin, account, change, address) };
 }
 
 TWString *_Nonnull TWHDWalletGetExtendedPrivateKey(struct TWHDWallet *wallet, TWPurpose purpose, TWCoinType coin, TWHDVersion version) {

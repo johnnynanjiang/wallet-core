@@ -36,7 +36,9 @@ public class HDWallet {
     public static native String getAddressFromExtended(String extended, CoinType coinType, int change, int address);
     public native byte[] seed();
     public native String mnemonic();
+    public native PrivateKey getKeyToAccountLevel(Purpose purpose, CoinType coin, int account);
     public native PrivateKey getKey(Purpose purpose, CoinType coin, int account, int change, int address);
+    public native PrivateKey getKeyAllHardened(Purpose purpose, CoinType coin, int account, int change, int address);
     public native String getExtendedPrivateKey(Purpose purpose, CoinType coin, HDVersion version);
     public native String getExtendedPublicKey(Purpose purpose, CoinType coin, HDVersion version);
 
