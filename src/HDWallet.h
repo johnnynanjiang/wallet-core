@@ -51,6 +51,8 @@ public:
     virtual ~HDWallet();
 
     /// Returns the private key at the given derivation path.
+    PrivateKey getMasterKey(TWCoinType coin) const;
+    PrivateKey getKey(TWPurpose purpose, TWCoinType coin) const;
     PrivateKey getKey(TWPurpose purpose, TWCoinType coin, uint32_t account) const;
     PrivateKey getKey(TWPurpose purpose, TWCoinType coin, uint32_t account, uint32_t change, uint32_t address) const;
     PrivateKey getKeyAllHardened(TWPurpose purpose, TWCoinType coin, uint32_t account, uint32_t change, uint32_t address) const;

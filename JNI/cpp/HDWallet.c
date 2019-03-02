@@ -115,6 +115,54 @@ jstring JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_mnemonic(JNIEnv *en
     return result;
 }
 
+jobject JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_getMasterKey(JNIEnv *env, jobject thisObject, jobject coin) {
+    jclass thisClass = (*env)->GetObjectClass(env, thisObject);
+    jfieldID handleFieldID = (*env)->GetFieldID(env, thisClass, "nativeHandle", "J");
+    struct TWHDWallet *instance = (struct TWHDWallet *) (*env)->GetLongField(env, thisObject, handleFieldID);
+
+    jclass coinClass = (*env)->GetObjectClass(env, coin);
+    jmethodID coinValueMethodID = (*env)->GetMethodID(env, coinClass, "value", "()I");
+    jint coinValue = (*env)->CallIntMethod(env, coin, coinValueMethodID);
+    struct TWPrivateKey *result = TWHDWalletGetMasterKey(instance, coinValue);
+
+    (*env)->DeleteLocalRef(env, coinClass);
+
+    (*env)->DeleteLocalRef(env, thisClass);
+
+    jclass class = (*env)->FindClass(env, "com/wallet/crypto/trustapp/jni/PrivateKey");
+    if (result == NULL) {
+        return NULL;
+    }
+    jmethodID method = (*env)->GetStaticMethodID(env, class, "createFromNative", "(J)Lcom/wallet/crypto/trustapp/jni/PrivateKey;");
+    return (*env)->CallStaticObjectMethod(env, class, method, (jlong) result);
+}
+
+jobject JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_getKeyToCoinLevel(JNIEnv *env, jobject thisObject, jobject purpose, jobject coin) {
+    jclass thisClass = (*env)->GetObjectClass(env, thisObject);
+    jfieldID handleFieldID = (*env)->GetFieldID(env, thisClass, "nativeHandle", "J");
+    struct TWHDWallet *instance = (struct TWHDWallet *) (*env)->GetLongField(env, thisObject, handleFieldID);
+
+    jclass purposeClass = (*env)->GetObjectClass(env, purpose);
+    jmethodID purposeValueMethodID = (*env)->GetMethodID(env, purposeClass, "value", "()I");
+    jint purposeValue = (*env)->CallIntMethod(env, purpose, purposeValueMethodID);
+    jclass coinClass = (*env)->GetObjectClass(env, coin);
+    jmethodID coinValueMethodID = (*env)->GetMethodID(env, coinClass, "value", "()I");
+    jint coinValue = (*env)->CallIntMethod(env, coin, coinValueMethodID);
+    struct TWPrivateKey *result = TWHDWalletGetKeyToCoinLevel(instance, purposeValue, coinValue);
+
+    (*env)->DeleteLocalRef(env, purposeClass);
+    (*env)->DeleteLocalRef(env, coinClass);
+
+    (*env)->DeleteLocalRef(env, thisClass);
+
+    jclass class = (*env)->FindClass(env, "com/wallet/crypto/trustapp/jni/PrivateKey");
+    if (result == NULL) {
+        return NULL;
+    }
+    jmethodID method = (*env)->GetStaticMethodID(env, class, "createFromNative", "(J)Lcom/wallet/crypto/trustapp/jni/PrivateKey;");
+    return (*env)->CallStaticObjectMethod(env, class, method, (jlong) result);
+}
+
 jobject JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_getKeyToAccountLevel(JNIEnv *env, jobject thisObject, jobject purpose, jobject coin, jint account) {
     jclass thisClass = (*env)->GetObjectClass(env, thisObject);
     jfieldID handleFieldID = (*env)->GetFieldID(env, thisClass, "nativeHandle", "J");

@@ -50,6 +50,12 @@ TWString *_Nonnull TWHDWalletMnemonic(struct TWHDWallet *_Nonnull wallet);
 
 /// Generates the private key at the specified derivation path.
 TW_EXPORT_METHOD
+struct TWPrivateKey *_Nonnull TWHDWalletGetMasterKey(struct TWHDWallet *_Nonnull wallet, enum TWCoinType coin);
+
+TW_EXPORT_METHOD
+struct TWPrivateKey *_Nonnull TWHDWalletGetKeyToCoinLevel(struct TWHDWallet *_Nonnull wallet, enum TWPurpose purpose, enum TWCoinType coin);
+
+TW_EXPORT_METHOD
 struct TWPrivateKey *_Nonnull TWHDWalletGetKeyToAccountLevel(struct TWHDWallet *_Nonnull wallet, enum TWPurpose purpose, enum TWCoinType coin, uint32_t account);
 
 TW_EXPORT_METHOD

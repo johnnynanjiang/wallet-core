@@ -88,6 +88,14 @@ public final class HDWallet {
         TWHDWalletDelete(rawValue)
     }
 
+    public func getMasterKey(coin: CoinType) -> PrivateKey {
+        return PrivateKey(rawValue: TWHDWalletGetMasterKey(rawValue, TWCoinType(rawValue: coin.rawValue)))
+    }
+
+    public func getKeyToCoinLevel(purpose: Purpose, coin: CoinType) -> PrivateKey {
+        return PrivateKey(rawValue: TWHDWalletGetKeyToCoinLevel(rawValue, TWPurpose(rawValue: purpose.rawValue), TWCoinType(rawValue: coin.rawValue)))
+    }
+
     public func getKeyToAccountLevel(purpose: Purpose, coin: CoinType, account: UInt32) -> PrivateKey {
         return PrivateKey(rawValue: TWHDWalletGetKeyToAccountLevel(rawValue, TWPurpose(rawValue: purpose.rawValue), TWCoinType(rawValue: coin.rawValue), account))
     }

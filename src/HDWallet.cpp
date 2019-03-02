@@ -57,6 +57,18 @@ HDWallet::~HDWallet() {
     std::fill(passphrase.begin(), passphrase.end(), 0);
 }
 
+PrivateKey HDWallet::getMasterKey(TWCoinType coin) const {
+    auto node = getMasterNode(*this, coin);
+    auto data = Data(node.private_key, node.private_key  + PrivateKey::size);
+    return PrivateKey(data);
+}
+
+PrivateKey HDWallet::getKey(TWPurpose purpose, TWCoinType coin) const {
+    auto node = getNode(*this, purpose, coin);
+    auto data = Data(node.private_key, node.private_key  + PrivateKey::size);
+    return PrivateKey(data);
+}
+
 PrivateKey HDWallet::getKey(TWPurpose purpose, TWCoinType coin, uint32_t account) const {
     auto node = getNode(*this, purpose, coin, account);
     auto data = Data(node.private_key, node.private_key  + PrivateKey::size);

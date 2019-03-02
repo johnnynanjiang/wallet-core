@@ -43,6 +43,12 @@ JNIEXPORT
 jstring JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_mnemonic(JNIEnv *env, jobject thisObject);
 
 JNIEXPORT
+jobject JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_getMasterKey(JNIEnv *env, jobject thisObject, jobject coin);
+
+JNIEXPORT
+jobject JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_getKeyToCoinLevel(JNIEnv *env, jobject thisObject, jobject purpose, jobject coin);
+
+JNIEXPORT
 jobject JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_getKeyToAccountLevel(JNIEnv *env, jobject thisObject, jobject purpose, jobject coin, jint account);
 
 JNIEXPORT
