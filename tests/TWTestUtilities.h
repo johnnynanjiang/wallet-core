@@ -32,5 +32,5 @@ inline void assertSeedEq(std::shared_ptr<TWHDWallet>& wallet, const char* expect
     assertHexEqual(seed, expected);
 }
 
-const auto fixture_mnemonic = STRING("ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal");
-const auto fixture_passphrase = STRING("TREZOR");
+const auto MNEMONIC = STRING("ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal");
+const auto PASSPHRASE = STRING("TREZOR");

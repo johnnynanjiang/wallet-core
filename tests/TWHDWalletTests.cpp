@@ -14,8 +14,8 @@
 
 #include <thread>
 
-auto words = fixture_mnemonic;
-auto passphrase = fixture_passphrase;
+auto words = MNEMONIC;
+auto passphrase = PASSPHRASE;
 auto valid = STRING("credit expect life fade cover suit response wash pear what skull force");
 auto invalidWord = STRING("ripple scissors hisc mammal hire column oak again sun offer wealth tomorrow");
 auto invalidWord1 = STRING("high culture ostrich wrist exist ignore interest hybridous exclude width more");

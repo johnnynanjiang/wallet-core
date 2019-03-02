@@ -8,7 +8,7 @@
 
 using namespace TW;
 
-auto wallet = WRAP(TWHDWallet, TWHDWalletCreateWithMnemonic(fixture_mnemonic.get(), fixture_passphrase.get()));
+auto wallet = WRAP(TWHDWallet, TWHDWalletCreateWithMnemonic(MNEMONIC.get(), PASSPHRASE.get()));
 const char* bip39Seed = "7ae6f661157bda6492f6162701e570097fc726b6235011ea5ad09bf04986731ed4d92bc43cbdee047b60ea0dd1b1fa4274377c9bf5bd14ab1982c272d8076f29";
 
 TEST(Stellar, GetMasterKeyFromMnemonic) {
@@ -19,7 +19,13 @@ TEST(Stellar, GetMasterKeyFromMnemonic) {
     EXPECT_EQ(hex(masterPrivateKey.get()->impl.bytes), "2d4f374ece128e412067b4df6709257a249a7750fc8124262cf8b08a97f24fad");
 }
 
-TEST(Stellar, DerivePath_M_44_148_0) {
+TEST(Stellar, DerivePath_M_44_148_PrivateKey) {
+    auto privateKey_m_44_148 = WRAP(TWPrivateKey, TWHDWalletGetKeyToCoinLevel(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar));
+
+    EXPECT_EQ(hex(privateKey_m_44_148.get()->impl.bytes), "1cf9c883a02479083712dcc6ed7e70657a3cfc156ae3082de96f3f5fc09bd6c4");
+}
+
+TEST(Stellar, DerivePath_M_44_148_X_PrivateKey) {
     auto privateKey_m_44_148_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyToAccountLevel(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0));
     auto privateKey_m_44_148_1 = WRAP(TWPrivateKey, TWHDWalletGetKeyToAccountLevel(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 1));
 
@@ -27,7 +33,18 @@ TEST(Stellar, DerivePath_M_44_148_0) {
     EXPECT_EQ(hex(privateKey_m_44_148_1.get()->impl.bytes), "afcb27720af99a95b6cb3fd660c9a834ef08d1f4654a8584b4d70734af734e7f");
 }
 
-TEST(Stellar, DerivePath_M_44_148_0_0_0) {
+TEST(Stellar, DerivePath_M_44_148_X_Address) {
+    auto privateKey_m_44_148_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyToAccountLevel(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0));
+    auto publicKey_m_44_148_0 = TWPrivateKeyGetPublicKey(privateKey_m_44_148_0.get(), false);
+    auto publicKeyData_m_44_148_0 = WRAPD(TWPublicKeyData(publicKey_m_44_148_0));
+
+    auto privateKeyAsSeed = WRAPD(TWPrivateKeyData(privateKey_m_44_148_0.get()));
+    auto wallet2 = WRAP(TWHDWallet, TWHDWalletCreateWithData(privateKeyAsSeed.get(), STRING("").get()));
+    // TODO by JNJ: fix it, it seems not matching the Stellar Java SDK test, maybe that end is wrong?
+    assertSeedEq(wallet2, "7a476ce17dd3f058d2d48f8917b180735d544062c8f35083d0ba13d94ea0b058ca0221517ee3c6786e3cdd618bf879db02aec5a12a4ea70cc32e7bee5dc171d0");
+}
+
+TEST(Stellar, DerivePath_M_44_148_X_X_X_PrivateKey) {
     auto privateKey_m_44_148_0_0_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyAllHardened(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 0));
     auto privateKey_m_44_148_1_0_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyAllHardened(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 1, 0, 0));
     auto privateKey_m_44_148_1_0_1 = WRAP(TWPrivateKey, TWHDWalletGetKeyAllHardened(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 1, 0, 1));
