@@ -33,15 +33,18 @@ TEST(Stellar, DerivePath_M_44_148_X_PrivateKey) {
     EXPECT_EQ(hex(privateKey_m_44_148_1.get()->impl.bytes), "afcb27720af99a95b6cb3fd660c9a834ef08d1f4654a8584b4d70734af734e7f");
 }
 
-TEST(Stellar, DerivePath_M_44_148_X_Address) {
+TEST(Stellar, DerivePath_M_44_148_X_PublicKey) {
     auto privateKey_m_44_148_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyToAccountLevel(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0));
     auto publicKey_m_44_148_0 = TWPrivateKeyGetPublicKey(privateKey_m_44_148_0.get(), false);
     auto publicKeyData_m_44_148_0 = WRAPD(TWPublicKeyData(publicKey_m_44_148_0));
 
     auto privateKeyAsSeed = WRAPD(TWPrivateKeyData(privateKey_m_44_148_0.get()));
     auto wallet2 = WRAP(TWHDWallet, TWHDWalletCreateWithData(privateKeyAsSeed.get(), STRING("").get()));
-    // TODO by JNJ: fix it, it seems not matching the Stellar Java SDK test, maybe that end is wrong?
-    assertSeedEq(wallet2, "7a476ce17dd3f058d2d48f8917b180735d544062c8f35083d0ba13d94ea0b058ca0221517ee3c6786e3cdd618bf879db02aec5a12a4ea70cc32e7bee5dc171d0");
+    
+    ed25519_public_key publicKey;
+    ed25519_publickey(privateKey_m_44_148_0.get()->impl.bytes.data(), publicKey);
+
+    EXPECT_EQ(hex(publicKey), "a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e1377");
 }
 
 TEST(Stellar, DerivePath_M_44_148_X_X_X_PrivateKey) {
