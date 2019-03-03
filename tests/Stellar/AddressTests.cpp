@@ -8,12 +8,11 @@
 
 using namespace TW;
 
+const char* bip39Seed = "7ae6f661157bda6492f6162701e570097fc726b6235011ea5ad09bf04986731ed4d92bc43cbdee047b60ea0dd1b1fa4274377c9bf5bd14ab1982c272d8076f29";;
 std::shared_ptr<TWHDWallet> wallet;
-char* bip39Seed;
 
 TEST(Stellar, SeedFromMnemonic) {
     wallet = WRAP(TWHDWallet, TWHDWalletCreateWithMnemonic(MNEMONIC.get(), PASSPHRASE.get()));
-    bip39Seed = "7ae6f661157bda6492f6162701e570097fc726b6235011ea5ad09bf04986731ed4d92bc43cbdee047b60ea0dd1b1fa4274377c9bf5bd14ab1982c272d8076f29";
 
     assertSeedEq(wallet, bip39Seed);
 }
