@@ -55,9 +55,6 @@ JNIEXPORT
 jobject JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_getKey(JNIEnv *env, jobject thisObject, jobject purpose, jobject coin, jint account, jint change, jint address);
 
 JNIEXPORT
-jobject JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_getKeyAllHardened(JNIEnv *env, jobject thisObject, jobject purpose, jobject coin, jint account, jint change, jint address);
-
-JNIEXPORT
 jstring JNICALL Java_com_wallet_crypto_trustapp_jni_HDWallet_getExtendedPrivateKey(JNIEnv *env, jobject thisObject, jobject purpose, jobject coin, jobject version);
 
 JNIEXPORT

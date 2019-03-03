@@ -40,7 +40,6 @@ public class HDWallet {
     public native PrivateKey getKeyToCoinLevel(Purpose purpose, CoinType coin);
     public native PrivateKey getKeyToAccountLevel(Purpose purpose, CoinType coin, int account);
     public native PrivateKey getKey(Purpose purpose, CoinType coin, int account, int change, int address);
-    public native PrivateKey getKeyAllHardened(Purpose purpose, CoinType coin, int account, int change, int address);
     public native String getExtendedPrivateKey(Purpose purpose, CoinType coin, HDVersion version);
     public native String getExtendedPublicKey(Purpose purpose, CoinType coin, HDVersion version);
 

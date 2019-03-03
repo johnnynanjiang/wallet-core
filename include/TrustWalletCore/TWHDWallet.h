@@ -61,9 +61,6 @@ struct TWPrivateKey *_Nonnull TWHDWalletGetKeyToAccountLevel(struct TWHDWallet *
 TW_EXPORT_METHOD
 struct TWPrivateKey *_Nonnull TWHDWalletGetKey(struct TWHDWallet *_Nonnull wallet, enum TWPurpose purpose, enum TWCoinType coin, uint32_t account, uint32_t change, uint32_t address);
 
-TW_EXPORT_METHOD
-struct TWPrivateKey *_Nonnull TWHDWalletGetKeyAllHardened(struct TWHDWallet *_Nonnull wallet, enum TWPurpose purpose, enum TWCoinType coin, uint32_t account, uint32_t change, uint32_t address);
-
 /// Returns the extended private key.
 TW_EXPORT_METHOD
 TWString *_Nonnull TWHDWalletGetExtendedPrivateKey(struct TWHDWallet *_Nonnull wallet, enum TWPurpose purpose, enum TWCoinType coin, enum TWHDVersion version);

@@ -47,16 +47,6 @@ TEST(Stellar, DerivePath_M_44_148_X_PublicKey) {
     EXPECT_EQ(hex(publicKey), "a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e1377");
 }
 
-TEST(Stellar, DerivePath_M_44_148_X_X_X_PrivateKey) {
-    auto privateKey_m_44_148_0_0_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyAllHardened(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0, 0, 0));
-    auto privateKey_m_44_148_1_0_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyAllHardened(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 1, 0, 0));
-    auto privateKey_m_44_148_1_0_1 = WRAP(TWPrivateKey, TWHDWalletGetKeyAllHardened(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 1, 0, 1));
-
-    EXPECT_EQ(hex(privateKey_m_44_148_0_0_0.get()->impl.bytes), "090ceb3bfc18a5994df63adb99d9e1ab4efd6e0b99f3cadc307011c88dfe3dcf");
-    EXPECT_EQ(hex(privateKey_m_44_148_1_0_0.get()->impl.bytes), "bcd8e34fc099226b125b0d0efbc1bb06445bf136cdbad7b270f5cfe727bc0b47");
-    EXPECT_EQ(hex(privateKey_m_44_148_1_0_1.get()->impl.bytes), "b46738be2511e5003e689ba2418cfcec6ee541b5ee74ed7476339056d819663d");
-}
-
 /*
     Test cases @ Stellar
     https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0005.md#key-derivation-for-ed25519

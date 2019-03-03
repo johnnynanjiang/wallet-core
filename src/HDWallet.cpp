@@ -24,7 +24,6 @@ namespace {
     HDNode getNode(const HDWallet& wallet, uint32_t purpose, uint32_t coin);
     HDNode getNode(const HDWallet& wallet, uint32_t purpose, uint32_t coin, uint32_t account);
     HDNode getNode(const HDWallet& wallet, uint32_t purpose, uint32_t coin, uint32_t account, uint32_t change, uint32_t address);
-    HDNode getNodeAllHardened(const HDWallet& wallet, uint32_t purpose, uint32_t coin, uint32_t account, uint32_t change, uint32_t address);
     HDNode getMasterNode(const HDWallet& wallet, uint32_t coin);
     const char* getCurveForCoin(uint32_t coin);
 }
@@ -77,12 +76,6 @@ PrivateKey HDWallet::getKey(TWPurpose purpose, TWCoinType coin, uint32_t account
 
 PrivateKey HDWallet::getKey(TWPurpose purpose, TWCoinType coin, uint32_t account, uint32_t change, uint32_t address) const {
     auto node = getNode(*this, purpose, coin, account, change, address);
-    auto data = Data(node.private_key, node.private_key  + PrivateKey::size);
-    return PrivateKey(data);
-}
-
-PrivateKey HDWallet::getKeyAllHardened(TWPurpose purpose, TWCoinType coin, uint32_t account, uint32_t change, uint32_t address) const {
-    auto node = getNodeAllHardened(*this, purpose, coin, account, change, address);
     auto data = Data(node.private_key, node.private_key  + PrivateKey::size);
     return PrivateKey(data);
 }
@@ -190,16 +183,6 @@ namespace {
         hdnode_private_ckd(&node, account | 0x80000000);
         hdnode_private_ckd(&node, change);
         hdnode_private_ckd(&node, address);
-        return node;
-    }
-
-    HDNode getNodeAllHardened(const HDWallet& wallet, uint32_t purpose, uint32_t coin, uint32_t account, uint32_t change, uint32_t address) {
-        auto node = getMasterNode(wallet, coin);
-        hdnode_private_ckd(&node, purpose | 0x80000000);
-        hdnode_private_ckd(&node, coin | 0x80000000);
-        hdnode_private_ckd(&node, account | 0x80000000);
-        hdnode_private_ckd(&node, change | 0x80000000);
-        hdnode_private_ckd(&node, address | 0x80000000);
         return node;
     }
 
