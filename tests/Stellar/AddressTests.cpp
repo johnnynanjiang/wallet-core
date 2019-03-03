@@ -2,6 +2,7 @@
 
 #include "../../src/HDWallet.h"
 #include "../../src/HexCoding.h"
+#include "../../src/Checksum.h"
 #include "../TWTestUtilities.h"
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
@@ -44,6 +45,27 @@ TEST(Stellar, Path_M_44_148_X_PublicKey) {
     ed25519_publickey(privateKey_m_44_148_0.get()->impl.bytes.data(), publicKey);
 
     EXPECT_EQ(hex(publicKey), "a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e1377");
+}
+
+TEST(Stellar, PublicKeyToAccountId) {
+    uint8_t ACCOUNT_ID_VERSION_CODE = 6 << 3;
+    uint8_t accountId[35] = {0};
+    const char *publicKey = "a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e1377";
+
+    accountId[0] = ACCOUNT_ID_VERSION_CODE;
+
+    EXPECT_EQ(hex(accountId), "3000000000000000000000000000000000000000000000000000000000000000000000");
+
+    auto publicKeyData = parse_hex(publicKey);
+    std::copy(publicKeyData.begin(), publicKeyData.end(), accountId + 1);
+
+    EXPECT_EQ(hex(accountId), "30a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e13770000");
+
+    /* TODO by JNJ: to fix it
+    uint16_t checksum = Checksum::crc16(accountId, 1 + 32 + 2);
+
+    EXPECT_EQ(hex(checksum), 0);
+    */
 }
 
 /*
