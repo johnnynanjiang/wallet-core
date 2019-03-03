@@ -35,13 +35,8 @@ TEST(Stellar, DerivePath_M_44_148_X_PrivateKey) {
 
 TEST(Stellar, DerivePath_M_44_148_X_PublicKey) {
     auto privateKey_m_44_148_0 = WRAP(TWPrivateKey, TWHDWalletGetKeyToAccountLevel(wallet.get(), TWPurposeBIP44, TWCoinTypeStellar, 0));
-    auto publicKey_m_44_148_0 = TWPrivateKeyGetPublicKey(privateKey_m_44_148_0.get(), false);
-    auto publicKeyData_m_44_148_0 = WRAPD(TWPublicKeyData(publicKey_m_44_148_0));
-
-    auto privateKeyAsSeed = WRAPD(TWPrivateKeyData(privateKey_m_44_148_0.get()));
-    auto wallet2 = WRAP(TWHDWallet, TWHDWalletCreateWithData(privateKeyAsSeed.get(), STRING("").get()));
-    
     ed25519_public_key publicKey;
+
     ed25519_publickey(privateKey_m_44_148_0.get()->impl.bytes.data(), publicKey);
 
     EXPECT_EQ(hex(publicKey), "a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e1377");
