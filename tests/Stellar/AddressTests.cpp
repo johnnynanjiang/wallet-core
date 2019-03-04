@@ -5,6 +5,7 @@
 #include "../../src/Checksum.h"
 #include "../TWTestUtilities.h"
 #include <TrezorCrypto/bip32.h>
+#include <TrezorCrypto/base32.h>
 #include <TrezorCrypto/curves.h>
 
 using namespace TW;
@@ -69,6 +70,11 @@ TEST(Stellar, PublicKeyToAccountId) {
     accountId[1 + 32 + 1] = (uint8_t)checksum;
 
     EXPECT_EQ(hex(accountId), "30a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e1377010f");
+
+    char accountIdBase32[64] = {0};
+    base32_encode(accountId, 35, accountIdBase32, 64, BASE32_ALPHABET_RFC4648);
+
+    EXPECT_EQ(std::string(accountIdBase32), "GCRWFRVQP5XS7I4SFCL374VKV6OHJ3L3H3SDVGH7FW73N7LSNYJXOAIP");
 }
 
 /*
