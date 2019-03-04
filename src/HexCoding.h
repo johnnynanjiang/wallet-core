@@ -47,6 +47,15 @@ inline std::string hex(uint64_t value) {
     );
 }
 
+/// Converts a `uint16_t` value to a hexadecimal string.
+inline std::string hex(uint16_t value) {
+    auto bytes = reinterpret_cast<const uint8_t*>(&value);
+    return hex(
+        std::reverse_iterator<const uint8_t*>(bytes + sizeof(value)),
+        std::reverse_iterator<const uint8_t*>(bytes)
+    );
+}
+
 /// Parses a string of hexadecimal values.
 ///
 /// \returns the array or parsed bytes or an empty array if the string is not valid hexadecimal.

@@ -61,11 +61,14 @@ TEST(Stellar, PublicKeyToAccountId) {
 
     EXPECT_EQ(hex(accountId), "30a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e13770000");
 
-    /* TODO by JNJ: to fix it
     uint16_t checksum = Checksum::crc16(accountId, 1 + 32 + 2);
+    std::string checksumHex = hex(checksum);
+    EXPECT_EQ(checksumHex, "010f");
 
-    EXPECT_EQ(hex(checksum), 0);
-    */
+    accountId[1 + 32] = checksum >> 8;
+    accountId[1 + 32 + 1] = (uint8_t)checksum;
+
+    EXPECT_EQ(hex(accountId), "30a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e1377010f");
 }
 
 /*
