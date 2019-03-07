@@ -62,19 +62,22 @@ TEST(Stellar, PublicKeyToAccountId) {
 
     EXPECT_EQ(hex(accountId), "30a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e13770000");
 
-    uint16_t checksum = Checksum::crc16(accountId, 1 + 32 + 2);
+    uint16_t checksumInt = Checksum::crc16(accountId, 1 + 32);
+    uint8_t checksum[2] = {0};
+    checksum[0] = checksumInt >> 0;
+    checksum[1] = checksumInt >> 8;
     std::string checksumHex = hex(checksum);
-    EXPECT_EQ(checksumHex, "010f");
+    EXPECT_EQ(checksumHex, "2c6a");
 
-    accountId[1 + 32] = checksum >> 8;
-    accountId[1 + 32 + 1] = (uint8_t)checksum;
+    accountId[1 + 32 + 0] = checksum[0];
+    accountId[1 + 32 + 1] = checksum[1];
 
-    EXPECT_EQ(hex(accountId), "30a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e1377010f");
+    EXPECT_EQ(hex(accountId), "30a362c6b07f6f2fa3922897bff2aaaf9c74ed7b3ee43a98ff2dbfb6fd726e13772c6a");
 
     char accountIdBase32[64] = {0};
     base32_encode(accountId, 35, accountIdBase32, 64, BASE32_ALPHABET_RFC4648);
 
-    EXPECT_EQ(std::string(accountIdBase32), "GCRWFRVQP5XS7I4SFCL374VKV6OHJ3L3H3SDVGH7FW73N7LSNYJXOAIP");
+    EXPECT_EQ(std::string(accountIdBase32), "GCRWFRVQP5XS7I4SFCL374VKV6OHJ3L3H3SDVGH7FW73N7LSNYJXOLDK");
 }
 
 /*
