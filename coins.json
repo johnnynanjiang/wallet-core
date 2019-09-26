@@ -1112,5 +1112,23 @@
             "clientPublic": "https://indexer.algorand.network",
             "clientDocs": "https://developer.algorand.org/docs/algod-rest-paths"
         }
+    },
+    {
+        "id": "elastos",
+        "name": "Elastos",
+        "symbol": "ELA",
+        "decimals": 8,
+        "blockchain": "Elastos",
+        "derivationPath": "m/44'/0'/0'/0/0'",
+        "curve": "nist256p1",
+        "publicKeyType": "nist256p1",
+        "p2pkhPrefix": 33,
+        "explorer": "https://blockchain.elastos.org/tx/",
+        "info": {
+            "url": "https://www.elastos.org/",
+            "client": "https://github.com/elastos/Elastos.ELA",
+            "clientPublic": "https://api-wallet-ela.elastos.org/",
+            "clientDocs": "https://github.com/elastos/Elastos/wiki/A-Developer-Guide-to-Elastos"
+        }
     }
 ]

@@ -151,6 +151,9 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetSymbol) {
 
     auto algo = WRAPS(TWCoinTypeConfigurationGetSymbol(TWCoinTypeAlgorand));
     assertStringsEqual(algo, "ALGO");
+
+    auto ela = WRAPS(TWCoinTypeConfigurationGetSymbol(TWCoinTypeElastos));
+    assertStringsEqual(ela, "ELA");
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetDecimals) {
@@ -203,10 +206,12 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetDecimals) {
     ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeHarmony), 18);
     ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeSolana), 13);
     ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeAlgorand), 6);
+    ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeElastos), 8);
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetTransactionURL) {
     auto txId = TWStringCreateWithUTF8Bytes("123");
+
     auto eth = WRAPS(TWCoinTypeConfigurationGetTransactionURL(TWCoinTypeEthereum, txId));
     assertStringsEqual(eth, "https://etherscan.io/tx/123");
 
@@ -356,6 +361,9 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetTransactionURL) {
 
     auto algo = WRAPS(TWCoinTypeConfigurationGetTransactionURL(TWCoinTypeAlgorand, txId));
     assertStringsEqual(algo, "https://algoexplorer.io/tx/123");
+
+    auto ela = WRAPS(TWCoinTypeConfigurationGetTransactionURL(TWCoinTypeElastos, txId));
+    assertStringsEqual(ela, "https://blockchain.elastos.org/tx/123");
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetID) {
@@ -502,6 +510,9 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetID) {
 
     auto algo = WRAPS(TWCoinTypeConfigurationGetID(TWCoinTypeAlgorand));
     assertStringsEqual(algo, "algorand");
+
+    auto ela = WRAPS(TWCoinTypeConfigurationGetID(TWCoinTypeElastos));
+    assertStringsEqual(ela, "elastos");
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetName) {
@@ -648,6 +659,9 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetName) {
 
     auto algo = WRAPS(TWCoinTypeConfigurationGetName(TWCoinTypeAlgorand));
     assertStringsEqual(algo, "Algorand");
+
+    auto ela = WRAPS(TWCoinTypeConfigurationGetName(TWCoinTypeElastos));
+    assertStringsEqual(ela, "Elastos");
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeBlockchain) {
@@ -673,6 +687,7 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeBlockchain) {
     ASSERT_EQ(TWBlockchainHarmony, TWCoinTypeBlockchain(TWCoinTypeHarmony));
     ASSERT_EQ(TWBlockchainSolana, TWCoinTypeBlockchain(TWCoinTypeSolana));
     ASSERT_EQ(TWBlockchainAlgorand, TWCoinTypeBlockchain(TWCoinTypeAlgorand));
+    ASSERT_EQ(TWBlockchainElastos, TWCoinTypeBlockchain(TWCoinTypeElastos));
 }
 
 TEST(TWCoinTypeConfiguration, P2SHPrefix) {
@@ -694,6 +709,5 @@ TEST(TWCoinTypeConfiguration, P2SHPrefix) {
 TEST(TWCoinTypeConfiguration, StaticPrefix) {
     ASSERT_EQ(0, TWCoinTypeStaticPrefix(TWCoinTypeBitcoin));
     ASSERT_EQ(0x07, TWCoinTypeStaticPrefix(TWCoinTypeDecred));
-    ASSERT_EQ(0x1c, TWCoinTypeStaticPrefix(TWCoinTypeZcash));
     ASSERT_EQ(0x1c, TWCoinTypeStaticPrefix(TWCoinTypeZcash));
 }

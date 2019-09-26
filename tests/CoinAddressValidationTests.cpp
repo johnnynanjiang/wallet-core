@@ -320,4 +320,9 @@ TEST(Coin, validateAddressAlgorand) {
     EXPECT_FALSE(validateAddress(TWCoinTypeAlgorand, "1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2"));
 }
 
+TEST(Coin, validateAddressElastos) {
+    EXPECT_TRUE(validateAddress(TWCoinTypeElastos, "EMhz3DQtQBYaQPzAps6MziyQZqhE8MjeTR"));
+    EXPECT_FALSE(validateAddress(TWCoinTypeElastos, "XMhz3DQtQBYaQPzAps6MziyQZqhE8MjeTR"));
+}
+
 } // namespace TW
