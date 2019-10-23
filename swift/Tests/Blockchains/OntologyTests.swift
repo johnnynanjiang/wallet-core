@@ -12,7 +12,7 @@ extension String {
         guard let r = range(of: stuff) else {
             return -1
         }
-        return r.lowerBound.utf16Offset(in: self)
+        return r.lowerBound.encodedOffset
     }
 }
 
