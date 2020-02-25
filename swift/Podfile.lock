@@ -1,5 +1,5 @@
 PODS:
-  - SwiftLint (0.32.0)
+  - SwiftLint (0.35.0)
   - SwiftProtobuf (1.5.0)
 
 DEPENDENCIES:
@@ -7,14 +7,14 @@ DEPENDENCIES:
   - SwiftProtobuf (~> 1.5.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - SwiftLint
     - SwiftProtobuf
 
 SPEC CHECKSUMS:
-  SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
+  SwiftLint: 5553187048b900c91aa03552807681bb6b027846
   SwiftProtobuf: 241400280f912735c1e1b9fe675fdd2c6c4d42e2
 
 PODFILE CHECKSUM: cbcc5bab5b64fa9f7863e62cc106d25d3fc1dfc5
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.0

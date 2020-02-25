@@ -200,9 +200,9 @@ class CoinAddressDerivationTests: XCTestCase {
 
                     // m/44'/2305'
                     let accountExtendedPrivateKey = wallet.getExtendedPrivateKey(purpose: .bip44, coin: .elastos, version: .xprv)
-                XCTAssertEqual("xprv9zFAnRdj7bFA2Sbr7kN9MTZ4r7udwajVeboXKqSwJLNAbGAofyVcmTG2pvTuqrR6ySLNPG7Rh8NUtc1VtTrvQMSwdr3DyXdshyFpybYJUE5", accountExtendedPrivateKey)
+                XCTAssertEqual("xprv9yLx5ceCeF7ibs7jNyYz4VxHymFZGU6UacXCd4UhR7M3qmE23ciBo8udbUomE7hpk1XwRirPPduh4hkq4PFm6txB2HWfrqudXqdY2fQRXcz", accountExtendedPrivateKey)
 
-                    let expectedResult = "EYQr64SSSu39fydMDNNx15Cy26SJ1Nuw5Y"
+                    let expectedResult = "ENPJNZG2Xnhy6Tc5eBtWF6G8Nw2NZwjcbp"
                     AssetCoinDerivation(coin, expectedResult, derivedAddress, address)
                 }
             }
